@@ -1,4 +1,4 @@
-from plotting import PlottingMixin
+from apps.livelihood.backend.plotting import PlottingMixin
 import numpy as np
 from scipy.signal import savgol_filter  
 
@@ -76,13 +76,13 @@ class Income(PlottingMixin):
 
 
 
-
-rent = Expense(monthly_cost=1600)
-bills = Expense(monthly_cost=117)
-travel = Expense(monthly_cost=24*4)
-food = Expense(monthly_cost=60)
-income=Income(yearly=40000, offset=0, yearly_increase=7500)
-income.net([rent, bills, travel, food],plot=True,smooth_interval= 12)
+if __name__=='main':
+    rent = Expense(monthly_cost=1600)
+    bills = Expense(monthly_cost=117)
+    travel = Expense(monthly_cost=24*4)
+    food = Expense(monthly_cost=60)
+    income=Income(yearly=40000, offset=0, yearly_increase=7500)
+    income.net([rent, bills, travel, food],plot=True,smooth_interval= 12)
 
 
         

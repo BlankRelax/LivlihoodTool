@@ -4,9 +4,9 @@ from  django.contrib.auth.models import User
 class Income(models.Model):
     
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    yearly_cost = models.IntegerField(null=True)
-    monthly_cost = models.IntegerField(null=True)
-    weekly_cost = models.IntegerField(null=True)
-    offset = models.IntegerField(null=True)
-    yearly_increase = models.IntegerField(null=True)
+    yearly_cost = models.IntegerField(null=True, default=0)
+    monthly_cost = models.IntegerField(null=True, default=0)
+    weekly_cost = models.IntegerField(null=True, default=0)
+    offset = models.IntegerField(null=True, default=0)
+    yearly_increase = models.IntegerField(null=True, default=0)
 

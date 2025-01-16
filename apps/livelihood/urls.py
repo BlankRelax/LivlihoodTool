@@ -16,7 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.contrib import admin
+from django.urls import path, include
+
+from apps.livelihood.views.income_create import CreateIncomeView
+from apps.livelihood.views.expense_create import CreateExpenseView
+from apps.livelihood.views.plot_net import PlotNetView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/livelihood/users/<int:user_id>/income/', CreateIncomeView.as_view(), name='create_income_view'),
+    path('api/livelihood/users/<int:user_id>/expense/', CreateExpenseView.as_view(), name='create_expense_view'),
+    path('api/livelihood/users/<int:user_id>/expense/income/', PlotNetView.as_view(), name='plot_net_view'),
+
 ]
