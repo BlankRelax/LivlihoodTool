@@ -1,1 +1,0 @@
-from apps.livelihood.backend.plotting import PlottingMixin
