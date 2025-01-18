@@ -64,8 +64,6 @@ class BaseEntity:
     def cum_weekly(self, number_of_years:int):
         raise NotImplementedError
 
-
-
     @property
     def currency(self):
         return 'GBP'
