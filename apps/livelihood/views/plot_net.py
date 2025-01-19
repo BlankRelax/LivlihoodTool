@@ -1,11 +1,16 @@
+import urllib.parse
 from rest_framework import views
-from django.shortcuts import get_list_or_404
-from rest_framework.response import Response
-from rest_framework import status
+from django.shortcuts import get_list_or_404, render
+from rest_framework.permissions import AllowAny
+import io
+import urllib, base64
+
 
 from apps.livelihood.models import Income, Expense
 from apps.livelihood.backend import base
 class PlotNetView(views.APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def init_objects(self,user_expenses:list[Expense],user_incomes:list[Income]):
         expense_objects=[base.Expense(yearly_cost=user_expense.yearly_cost, monthly_cost=user_expense.monthly_cost, weekly_cost=user_expense.weekly_cost) for user_expense in user_expenses]
@@ -17,5 +22,11 @@ class PlotNetView(views.APIView):
         user_incomes = get_list_or_404(Income.objects.all(), user_id=user_id)
 
         expense_objects,income_objects=self.init_objects(user_expenses=user_expenses, user_incomes=user_incomes)
-        income_objects[0].net(expense_objects,plot=True,smooth_interval= 0)
-        return Response(status.HTTP_200_OK)
+        # TODO: implement agg of all incomes
+        fig=income_objects[0].net(expense_objects,plot=True,smooth_interval= 0)
+        buf = io.BytesIO()
+        fig.savefig(buf, format='png')
+        buf.seek(0)
+        string= base64.b64encode(buf.read())
+        uri = urllib.parse.quote(string)
+        return render(request, 'dashboard.html', {'data':uri})

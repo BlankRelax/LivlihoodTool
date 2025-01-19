@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livelihood Calculator</title>
+</head>
+<body>
+    <h1>Livelihood Calculator</h1>
+    <form id="postForm" onsubmit="return false;">
+        <label for="yearly_cost">yearly_cost:</label>
+        <input type="number" id="yearly_cost" name="yearly_cost" required><br><br>
+
+        <label for="monthly_cost">monthly_cost:</label>
+        <input type="number" id="monthly_cost" name="monthly_cost" required><br><br>
+
+        <label for="weekly_cost">weekly_cost:</label>
+        <input type="number" id="weekly_cost" name="weekly_cost" required><br><br>
+
+        <label for="offset">offset:</label>
+        <input type="number" id="offset" name="offset" required><br><br>
+
+        <label for="yearly_increase">yearly_increase:</label>
+        <input type="number" id="yearly_increase" name="yearly_increase" required><br><br>
+
+        <button id="submitButton">Create Income</button>
+    </form>
+
+    <form id="postForm" onsubmit="return false;">
+        <label for="yearly_cost">yearly_cost:</label>
+        <input type="number" id="yearly_cost" name="yearly_cost" required><br><br>
+
+        <label for="monthly_cost">monthly_cost:</label>
+        <input type="number" id="monthly_cost" name="monthly_cost" required><br><br>
+
+        <label for="weekly_cost">weekly_cost:</label>
+        <input type="number" id="weekly_cost" name="weekly_cost" required><br><br>
+
+        <button id="submitButton2">Create Expense</button>
+    </form>
+
+    <div id="apiResponse"></div>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function () {
+            // Collect data from the form
+            const yearly_cost = document.getElementById('yearly_cost').value;
+            const monthly_cost = document.getElementById('monthly_cost').value;
+            const weekly_cost = document.getElementById('weekly_cost').value;
+            const offset = document.getElementById('offset').value;
+            const yearly_increase = document.getElementById('yearly_increase').value;
+
+            // Perform a POST request
+            fetch('/api/livelihood/users/1/income/', { // Replace with your API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer {{ auth_token }}`, // Include token if needed
+                },
+                body: JSON.stringify({
+                    yearly_cost: yearly_cost,
+                    monthly_cost: monthly_cost,
+                    weekly_cost: weekly_cost,
+                    offset: offset,
+                    yearly_increase: yearly_increase,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Display the response
+                    document.getElementById('apiResponse').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('apiResponse').innerText = 'Error processing request.';
+                });
+        });
+    </script>
+
+    <div id="apiResponse2"></div>
+
+    <script>
+        document.getElementById('submitButton2').addEventListener('click', function () {
+            // Collect data from the form
+            const yearly_cost = document.getElementById('yearly_cost').value;
+            const monthly_cost = document.getElementById('monthly_cost').value;
+            const weekly_cost = document.getElementById('weekly_cost').value;
+
+            // Perform a POST request
+            fetch('/api/livelihood/users/1/expense/', { // Replace with your API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer {{ auth_token }}`, // Include token if needed
+                },
+                body: JSON.stringify({
+                    yearly_cost: yearly_cost,
+                    monthly_cost: monthly_cost,
+                    weekly_cost: weekly_cost,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Display the response
+                    document.getElementById('apiResponse2').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('apiResponse2').innerText = 'Error processing request.';
+                });
+        });
+    </script>
+    
+    <h1>Fetch Image and Redirect</h1>
+    <form action="{% url 'plot_net_view' user_id=1 %}" method="get">
+        <button type="submit">Go to Image</button>
+    </form>
+    
+
+</body>
+</html>

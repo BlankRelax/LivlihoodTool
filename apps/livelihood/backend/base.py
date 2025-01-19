@@ -108,7 +108,7 @@ class Income(BaseEntity, PlottingMixin):
         else:
             raise TypeError(f"'{unit}' is not a correct argument for unit")
 
-
+       
         for exp in expense:
             if unit=='yearly':
                 net_expense_list+=exp.cum_yearly(length)
@@ -117,13 +117,14 @@ class Income(BaseEntity, PlottingMixin):
             elif unit=='weekly':
                 net_expense_list+=exp.cum_weekly(length)
 
-        for inc in income:
-            if unit=='yearly':
-                net_income_list+=inc.cum_yearly(length)
-            elif unit=='monthly':
-                net_income_list+=inc.cum_monthly(length)
-            elif unit=='weekly':
-                net_income_list+=inc.cum_weekly(length)
+        if income:
+            for inc in income:
+                if unit=='yearly':
+                    net_income_list+=inc.cum_yearly(length)
+                elif unit=='monthly':
+                    net_income_list+=inc.cum_monthly(length)
+                elif unit=='weekly':
+                    net_income_list+=inc.cum_weekly(length)
         net_income_list+=self_cum
             
         net = net_income_list - net_expense_list
@@ -132,7 +133,7 @@ class Income(BaseEntity, PlottingMixin):
             
         print(f"net_exp_list:{net_expense_list}, net_income_list: {net_income_list}, self_cum: {self_cum} net: {net}")
         if plot:
-            self.plot(range(1,length+1), net, f'Time ({unit})', 'Net Savings (GBP)')
+            return self.plot(range(1,length+1), net, f'Time ({unit})', 'Net Savings (GBP)')
         else:
             return net
     
