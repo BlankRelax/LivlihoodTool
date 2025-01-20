@@ -92,7 +92,7 @@ class Income(BaseEntity, PlottingMixin):
         return savgol_filter(arr, interval, polyorder=2)
     
 
-    def net(self,expense:list[BaseEntity], plot:bool=True, smooth_interval = 0, income:Optional[BaseEntity]=None, unit:Literal['yearly', 'monthly', 'weekly']='yearly', length:int=5):
+    def net(self,expense:list[BaseEntity], plot:bool=True, smooth_interval = 0, income:Optional[list[BaseEntity]]=None, unit:Literal['yearly', 'monthly', 'weekly']='yearly', length:int=5):
         """
         Calculate monthly net income after expense deductions 
         """

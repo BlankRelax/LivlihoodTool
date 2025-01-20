@@ -22,16 +22,21 @@ from django.urls import path, include
 
 from apps.livelihood.views.income_create import CreateIncomeView
 from apps.livelihood.views.expense_create import CreateExpenseView
+from apps.livelihood.views.expense_delete import DeleteExpenseView
+from apps.livelihood.views.income_delete import DeleteIncomeView
 from apps.livelihood.views.plot_net import PlotNetView
-from apps.livelihood.views.home import home
+from apps.livelihood.views.home import home, assets_and_liabilities
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home),
+    path('assets_and_liabilities/', assets_and_liabilities),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/livelihood/users/<int:user_id>/income/', CreateIncomeView.as_view(), name='create_income_view'),
     path('api/livelihood/users/<int:user_id>/expense/', CreateExpenseView.as_view(), name='create_expense_view'),
     path('api/livelihood/users/<int:user_id>/expense/income/', PlotNetView.as_view(), name='plot_net_view'),
+    path('api/livelihood/income/', DeleteIncomeView.as_view(), name='delete_income_view'),
+    path('api/livelihood/expense/', DeleteExpenseView.as_view(), name='delete_expense_view'),
 
 ]

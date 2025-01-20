@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selectable Items with API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    .data-container {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .item:last-child {
+      border-bottom: none;
+    }
+    .item h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #007bff;
+    }
+    .item p {
+      margin: 0 10px 0 0;
+      color: #555;
+      flex: 1;
+    }
+    .submit-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .submit-button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select Items and Call API</h1>
+  
+  <h2>Incomes</h2>
+  <div id="data-container-1" class="data-container">
+    <p>Loading data from API 1...</p>
+  </div>
+  
+  <h2>Expenses</h2>
+  <div id="data-container-2" class="data-container">
+    <p>Loading data from API 2...</p>
+  </div>
+
+  <button id="submit-button" class="submit-button" onclick="submitSelected()">Delete Selected Items</button>
+
+  <script>
+    const selectedPKs = new Set(); // Track selected PKs globally
+
+    // Function to fetch and populate data for a container
+    async function fetchData(containerId, apiUrl) {
+      const container = document.getElementById(containerId);
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // Clear loading message
+        container.innerHTML = '';
+
+        // Add items with checkboxes
+        data.forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.classList.add('item');
+
+          itemDiv.innerHTML = `
+            <input type="checkbox" id="item-${item.id}" value="${item.id}" onchange="toggleSelection(${item.id})">
+            <p>${item.name}</p>
+            <p>${item.yearly_cost}</p>
+          `;
+          container.appendChild(itemDiv);
+        });
+      } catch (error) {
+        container.innerHTML = `<p style="color: red;">Error loading data: ${error.message}</p>`;
+        console.error(`Error fetching data for ${containerId}:`, error);
+      }
+    }
+
+    // Function to toggle selection of PKs
+    function toggleSelection(pk) {
+      if (selectedPKs.has(pk)) {
+        selectedPKs.delete(pk); // Remove if unchecked
+      } else {
+        selectedPKs.add(pk); // Add if checked
+      }
+      console.log('Selected PKs:', Array.from(selectedPKs));
+    }
+
+    // Function to submit selected PKs to another API
+    async function submitSelected() {
+      const apiUrl = 'http://127.0.0.1:8000/api/livelihood/income/'; // Replace with your API endpoint
+      const payload = {
+        selected_pks: Array.from(selectedPKs)
+      };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        alert('API Call Successful: ' + JSON.stringify(responseData));
+      } catch (error) {
+        alert('Error submitting data: ' + error.message);
+        console.error('Error submitting selected items:', error);
+      }
+    }
+
+    // Fetch data for both containers
+    fetchData('data-container-1', 'http://127.0.0.1:8000/api/livelihood/users/1/income/');
+    fetchData('data-container-2', 'http://127.0.0.1:8000/api/livelihood/users/1/expense/');
+  </script>
+</body>
+</html>
