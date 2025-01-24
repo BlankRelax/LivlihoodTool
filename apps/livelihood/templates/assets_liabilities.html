@@ -59,7 +59,7 @@
   </style>
 </head>
 <body>
-  <h1>Select Items and Call API</h1>
+  <h1>Manage your assets and Liabilities</h1>
   
   <h2>Incomes</h2>
   <div id="data-container-1" class="data-container">
@@ -71,7 +71,8 @@
     <p>Loading data from API 2...</p>
   </div>
 
-  <button id="submit-button" class="submit-button" onclick="submitSelected()">Delete Selected Items</button>
+  <button id="submit-button" class="submit-button" onclick="submitSelected('income')">Delete Incomes</button>
+  <button id="submit-button1" class="submit-button" onclick="submitSelected('expense')">Delete Expenses</button>
 
   <script>
     const selectedPKs = new Set(); // Track selected PKs globally
@@ -119,8 +120,8 @@
     }
 
     // Function to submit selected PKs to another API
-    async function submitSelected() {
-      const apiUrl = 'http://127.0.0.1:8000/api/livelihood/income/'; // Replace with your API endpoint
+    async function submitSelected(db_name) {
+      const apiUrl = `http://127.0.0.1:8000/api/livelihood/${db_name}/`; // Replace with your API endpoint
       const payload = {
         selected_pks: Array.from(selectedPKs)
       };

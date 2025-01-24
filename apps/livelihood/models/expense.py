@@ -7,3 +7,7 @@ class Expense(models.Model):
     yearly_cost = models.IntegerField(null=True, default=0)
     monthly_cost = models.IntegerField(null=True, default=0)
     weekly_cost = models.IntegerField(null=True, default=0)
+    name = models.TextField(null=True)
+    description = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
