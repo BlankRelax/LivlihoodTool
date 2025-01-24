@@ -1,6 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .top-panel {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+    }
+    .top-panel button {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .top-panel button:hover {
+      background-color: #0056b3;
+    }
+    .content {
+      margin-top: 60px;
+      padding: 20px;
+    }
+  </style>
+  </head>
+  <body>
+  <div class="top-panel">
+    <button onclick="redirectToPage1()">Assets and Liabilities</button>
+    <button onclick="redirectToPage2()">Home</button>
+    <button onclick="redirectToPage3()">Dashboard</button>
+  </div>
+  <div class="content">
+    <h1>Welcome to the API Call Panel</h1>
+    <p>Click the buttons above to make API calls and see the responses in the console.</p>
+  </div>
+  <script>
+    // Redirect to different API-rendered pages
+    function redirectToPage1() {
+      window.location.href = 'http://127.0.0.1:8000/assets_and_liabilities/'; // Replace with your API-rendered page URL
+    }
+  
+    function redirectToPage2() {
+      window.location.href = 'http://127.0.0.1:8000/home/'; // Replace with your API-rendered page URL
+    }
+  
+    function redirectToPage3() {
+      window.location.href = 'http://127.0.0.1:8000/api/livelihood/users/1/expense/income/'; // Replace with your API-rendered page URL
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selectable Items with API</title>
@@ -100,6 +164,7 @@
             <input type="checkbox" id="item-${item.id}" value="${item.id}" onchange="toggleSelection(${item.id})">
             <p>${item.name}</p>
             <p>${item.yearly_cost}</p>
+            <p>${item.offset}</p>
           `;
           container.appendChild(itemDiv);
         });

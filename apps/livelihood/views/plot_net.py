@@ -22,7 +22,6 @@ class PlotNetView(views.APIView):
         user_incomes = get_list_or_404(Income.objects.all(), user_id=user_id)
 
         expense_objects,income_objects=self.init_objects(user_expenses=user_expenses, user_incomes=user_incomes)
-        # TODO: implement agg of all incomes
         fig=income_objects[0].net(expense=expense_objects,plot=True,smooth_interval= 0, income=income_objects[1:])
         buf = io.BytesIO()
         fig.savefig(buf, format='png')

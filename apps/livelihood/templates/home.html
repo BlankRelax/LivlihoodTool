@@ -46,8 +46,8 @@
   <body>
     <div class="top-panel">
       <button onclick="redirectToPage1()">Assets and Liabilities</button>
-      <button onclick="redirectToPage2()">Go to Page 2</button>
-      <button onclick="redirectToPage3()">Go to Page 3</button>
+      <button onclick="redirectToPage2()">Home</button>
+      <button onclick="redirectToPage3()">Dashboard</button>
     </div>
     <div class="content">
       <h1>Welcome to the API Call Panel</h1>
@@ -60,11 +60,11 @@
       }
   
       function redirectToPage2() {
-        window.location.href = 'http://127.0.0.1:8000/assets_and_liabilities/'; // Replace with your API-rendered page URL
+        window.location.href = 'http://127.0.0.1:8000/home/'; // Replace with your API-rendered page URL
       }
   
       function redirectToPage3() {
-        window.location.href = 'http://127.0.0.1:8000/assets_and_liabilities/'; // Replace with your API-rendered page URL
+        window.location.href = 'http://127.0.0.1:8000/api/livelihood/users/1/expense/income/'; // Replace with your API-rendered page URL
       }
     </script>
 </head>
