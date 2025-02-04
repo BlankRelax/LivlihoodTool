@@ -9,7 +9,7 @@ class BaseChatBot(ABC):
      HuggingFace CausalLM
     """
 
-    def __init__(self, text_generation_api: Union[AutoModelForCausalLM], tokenizer_api:Union[AutoTokenizer], token: Optional[str]):
+    def __init__(self):
         """
         Params:
          text_generation_api - Any API that takes in a text, runs shows ML and returns text
@@ -17,11 +17,7 @@ class BaseChatBot(ABC):
          token: token to access model
         """
         self._history:list[dict[str,str]] = []
-        if type(text_generation_api) == AutoModelForCausalLM:
-            self.init_auto_model_for_causal_lm(text_generation_api, tokenizer_api, token)
-            return True
-        else:
-            pass
+        
 
     @property
     def history(self):
