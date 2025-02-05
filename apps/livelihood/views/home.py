@@ -5,3 +5,6 @@ def home(request):
 
 def assets_and_liabilities(request):
  return render(request, 'assets_liabilities.html')
+
+def ai_summary(request):
+ return render(request, 'ai_summary.html')

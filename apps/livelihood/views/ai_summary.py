@@ -25,8 +25,8 @@ class AISummary(APIView):
         return expense_list, income_list
 
 
-    def post(self, request, user_id):
-
+    def get(self, request, user_id):
+        print('hello')
         expense_list, income_list=self.get_user_info(user_id)
         prompt = """
             Summarize this persons incomes and expenses and provide finacial advice for him

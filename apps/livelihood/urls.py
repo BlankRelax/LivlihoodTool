@@ -26,12 +26,13 @@ from apps.livelihood.views.expense_delete import DeleteExpenseView
 from apps.livelihood.views.income_delete import DeleteIncomeView
 from apps.livelihood.views.plot_net import PlotNetView
 from apps.livelihood.views.ai_summary import AISummary
-from apps.livelihood.views.home import home, assets_and_liabilities
+from apps.livelihood.views.home import home, assets_and_liabilities, ai_summary
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home),
     path('assets_and_liabilities/', assets_and_liabilities),
+    path('ai_summary/', ai_summary),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/livelihood/users/<int:user_id>/income/', CreateIncomeView.as_view(), name='create_income_view'),
