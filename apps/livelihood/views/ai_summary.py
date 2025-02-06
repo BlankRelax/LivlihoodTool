@@ -2,8 +2,6 @@ from rest_framework.views import APIView
 from django.shortcuts import get_list_or_404
 from django.forms.models import model_to_dict
 from django.http import StreamingHttpResponse
-from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from apps.livelihood.backend.AI.hugging_face_chatbot import HuggingFaceChatBot
@@ -26,12 +24,11 @@ class AISummary(APIView):
 
 
     def get(self, request, user_id):
-        print('hello')
         expense_list, income_list=self.get_user_info(user_id)
         prompt = """
             Summarize this persons incomes and expenses and provide finacial advice for him
             """
-        chatbot = HuggingFaceChatBot(model_name='meta-llama/Llama-3.2-3B', token_env_name='META_LLAMA', prompt=prompt)
+        chatbot = HuggingFaceChatBot(model_name='deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B', token_env_name=None, prompt=prompt)
         streamed_output=chatbot.chat(message=f"{expense_list} {income_list}")
         return StreamingHttpResponse(streamed_output)
 

@@ -6,14 +6,18 @@ import torch
 from dotenv import load_dotenv
 
 from apps.livelihood.backend.AI.base_chatbot import BaseChatBot
+from apps.livelihood.backend.typing import hugging_face_models
 
 load_dotenv()
 
 class HuggingFaceChatBot(BaseChatBot):
 
-    def __init__(self, model_name, token_env_name:str, prompt:Optional[str]=None) -> None:
+    def __init__(self, model_name: hugging_face_models, token_env_name:Optional[str]=None, prompt:Optional[str]=None) -> None:
         super().__init__()
-        token=os.environ[token_env_name]
+        if token_env_name:
+            token=os.environ[token_env_name]
+        else:
+            token=None
         if torch.cuda.is_available():
             self.model = AutoModelForCausalLM.from_pretrained(
                 model_name, trust_remote_code=True, torch_dtype=torch.bfloat16,token=token
